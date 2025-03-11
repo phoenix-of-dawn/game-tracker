@@ -13,11 +13,11 @@ type Game struct {
 	Id               int     `json:"id"`
 	Name             string  `json:"name"`
 	AggregatedRating float64 `json:"aggregated_rating"`
-	Cover            Cover     `json:"cover"`
+	Cover            Cover   `json:"cover"`
 }
 
 type Cover struct {
-    Id int `json:"id"`
+    Id int     `json:"id"`
     Url string `json:"url"`
 }
 
