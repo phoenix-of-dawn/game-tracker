@@ -1,4 +1,12 @@
-<form [formGroup]="nameForm" (ngSubmit)="onSubmit()">
-    <input id="game-name" formControlName="name" />
-    <button type="submit" [disabled]="!nameForm.valid">Search</button>
-</form>
+<div class="search">
+    <mat-form-field class="search" [appearance]="'fill'" [formGroup]="nameForm">
+        <input
+            matInput
+            id="game-name"
+            formControlName="name"
+            placeholder="Search"
+            (keyup.enter)="onSubmit()"
+            required="true"
+        />
+    </mat-form-field>
+</div>

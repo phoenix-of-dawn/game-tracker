@@ -1,18 +1,25 @@
-import { Component, output } from '@angular/core';
+import { Component } from '@angular/core';
 import {
     FormControl,
     FormGroup,
     ReactiveFormsModule,
     Validators,
 } from '@angular/forms';
+import { MatFormField } from '@angular/material/form-field';
 import { GameHandler } from '../../services/game-fetch.service';
-import { Game } from '../../interfaces/game';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'search',
     templateUrl: './search.component.html',
     styleUrl: './search.component.scss',
-    imports: [ReactiveFormsModule],
+    imports: [
+        ReactiveFormsModule,
+        MatFormField,
+        MatInputModule,
+        MatButtonModule,
+    ],
 })
 export class Search {
     constructor(private gameHandler: GameHandler) {}
