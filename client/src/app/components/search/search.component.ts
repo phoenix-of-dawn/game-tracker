@@ -25,8 +25,7 @@ export class Search {
 
     onSubmit() {
         this.gameHandler.getGames(this.nameForm.value.name);
-        console.log(this.nameForm.value.name);
-        console.log(this.gameHandler.games);
         this.games.emit(this.gameHandler.games);
+        this.nameForm.reset();
     }
 }

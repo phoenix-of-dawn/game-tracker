@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { GameHandler } from '../../services/game-fetch.service';
 import { Game } from '../../interfaces/game';
 import { Search } from '../../components/search/search.component';
-import { RouterOutlet } from '@angular/router';
 import { GameComponent } from '../../components/game/game.component';
 
 @Component({
@@ -16,6 +15,5 @@ export class SearchPage {
 
     handleSearch(games: Game[]) {
         this.games = games;
-        console.log(this.games);
     }
 }
