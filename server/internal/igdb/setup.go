@@ -7,8 +7,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-
-	"github.com/joho/godotenv"
 )
 
 type apiKeys struct {
@@ -26,11 +24,6 @@ var ApiKeys apiKeys
 var AccessToken accessToken
 
 func loadEnvVariables() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Could not load env variables")
-	}
-
 	ApiKeys.Client_id = os.Getenv("CLIENT_ID")
 	ApiKeys.Client_secret = os.Getenv("CLIENT_SECRET")
 }
