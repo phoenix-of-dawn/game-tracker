@@ -1,0 +1,7 @@
+<div class="game">
+    @if (game()?.cover && game()?.cover != undefined) {
+    <img [src]="game()?.cover?.url" />
+    }
+    <p>Name: {{ game()?.name }}</p>
+    <p>Rating: {{ game()?.aggregated_rating }}</p>
+</div>

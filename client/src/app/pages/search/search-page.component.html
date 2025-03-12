@@ -1,0 +1,6 @@
+<div>
+    <search (games)="handleSearch($event)"></search>
+    @if (games.length > 0) { @for (game of games; track game.id) {
+    <game [gameInput]="game"></game>
+    } }
+</div>
