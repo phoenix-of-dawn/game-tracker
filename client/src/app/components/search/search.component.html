@@ -1,6 +1,4 @@
 <form [formGroup]="nameForm" (ngSubmit)="onSubmit()">
     <input id="game-name" formControlName="name" />
-    <button type="submit" [disabled]="!nameForm.valid" (click)="onSubmit()">
-        Search
-    </button>
+    <button type="submit" [disabled]="!nameForm.valid">Search</button>
 </form>
