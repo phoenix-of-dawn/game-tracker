@@ -43,13 +43,26 @@ func GetGame(id int) Game {
 
     json.Unmarshal(byte_resp, &result)
 
+    if len(result) == 0 {
+
+    }
+
     return result[0]
 }
 
 func GetGames(name string) Games {
 	url := "https://api.igdb.com/v4/games"
 
-	body := bytes.NewReader([]byte(fmt.Sprintf("fields id,name,aggregated_rating,cover.url; search \"%s\";", name)))
+    // game_type = 0 makes sure that only games are shown (0 is the reference ID for "main_games")
+    bodyString := fmt.Sprintf(`
+        fields id,name,aggregated_rating,cover.url; 
+        where game_type = 0;
+        search "%s";
+        `,
+        name,
+    )
+
+	body := bytes.NewReader([]byte(bodyString))
 
     resp, err := newRequest(url, body)
     if err != nil {
