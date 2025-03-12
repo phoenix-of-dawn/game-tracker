@@ -1,3 +1,9 @@
 .search {
     width: 100%;
 }
+
+.games {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
