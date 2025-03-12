@@ -22,6 +22,7 @@ func main() {
 	igdb.Setup()
 
 	router := gin.Default()
+	router.Use(handlers.CORSMiddleware())
 	handlers.Setup(router)
 	log.Println("Starting...")
 	router.Run(server_ip + ":" + server_port)
