@@ -11,9 +11,5 @@ import { GameComponent } from '../../components/game/game.component';
     imports: [Search, GameComponent],
 })
 export class SearchPage {
-    games: Game[] = [];
-
-    handleSearch(games: Game[]) {
-        this.games = games;
-    }
+    constructor(public gameHandler: GameHandler) {}
 }

@@ -17,15 +17,12 @@ import { Game } from '../../interfaces/game';
 export class Search {
     constructor(private gameHandler: GameHandler) {}
 
-    games = output<Game[]>();
-
     nameForm = new FormGroup({
         name: new FormControl('', Validators.required),
     });
 
     onSubmit() {
         this.gameHandler.getGames(this.nameForm.value.name);
-        this.games.emit(this.gameHandler.games);
         this.nameForm.reset();
     }
 }

@@ -17,11 +17,8 @@ export class GameHandler {
             return;
         }
 
-        console.log('Got here!');
-
         this.http.getGamesRequest(name).subscribe((res) => {
             this.games = res;
-            console.log(this.games);
         });
     }
 }
