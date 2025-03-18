@@ -17,8 +17,8 @@ type Game struct {
 }
 
 type Cover struct {
-    Id int     `json:"id"`
-    Url string `json:"url"`
+	Id  int    `json:"id"`
+	Url string `json:"url"`
 }
 
 type Games []Game
@@ -30,52 +30,51 @@ func GetGame(id int) Game {
 
 	body := bytes.NewReader([]byte(fmt.Sprintf("fields id,name,aggregated_rating,cover.url; where id=%d;", id)))
 
-    resp, err := newRequest(url, body)
-    if err != nil {
-        log.Fatalf("Something went wrong with the request: %s", err.Error())
-    }
+	resp, err := newRequest(url, body)
+	if err != nil {
+		log.Fatalf("Something went wrong with the request: %s", err.Error())
+	}
 
-    defer resp.Body.Close()
+	defer resp.Body.Close()
 
-    result := Games{}
+	result := Games{}
 
-    byte_resp, _ := io.ReadAll(resp.Body)
+	byte_resp, _ := io.ReadAll(resp.Body)
 
-    json.Unmarshal(byte_resp, &result)
+	json.Unmarshal(byte_resp, &result)
 
-    return result[0]
+	return result[0]
 }
 
 func GetGames(name string) Games {
 	url := "https://api.igdb.com/v4/games"
 
-    // game_type = 0 makes sure that only games are shown (0 is the reference ID for "main_games")
-    bodyString := fmt.Sprintf(`
+	// game_type = 0 makes sure that only games are shown (0 is the reference ID for "main_games")
+	bodyString := fmt.Sprintf(`
         fields id,name,aggregated_rating,cover.url; 
         where game_type = 0;
         search "%s";
         `,
-        name,
-    )
+		name,
+	)
 
 	body := bytes.NewReader([]byte(bodyString))
 
-    resp, err := newRequest(url, body)
-    if err != nil {
-        log.Fatalf("Something went wrong with the request: %s", err.Error())
-    }
+	resp, err := newRequest(url, body)
+	if err != nil {
+		log.Fatalf("Something went wrong with the request: %s", err.Error())
+	}
 
-    defer resp.Body.Close()
+	defer resp.Body.Close()
 
-    result := Games{}
+	result := Games{}
 
-    byte_resp, _ := io.ReadAll(resp.Body)
+	byte_resp, _ := io.ReadAll(resp.Body)
 
-    json.Unmarshal(byte_resp, &result)
+	json.Unmarshal(byte_resp, &result)
 
-    return result
+	return result
 }
-
 
 func newRequest(url string, body *bytes.Reader) (*http.Response, error) {
 	request, err := http.NewRequest("POST", url, body)

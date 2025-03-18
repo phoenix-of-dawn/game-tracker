@@ -10,14 +10,14 @@ import (
 )
 
 type apiKeys struct {
-	Client_id 	string
+	Client_id     string
 	Client_secret string
 }
 
 type accessToken struct {
 	Access_token string `json:"access_token"`
-	Expires_in int  `json:"expires_in"`
-	Token_type string `json:"token_type"`
+	Expires_in   int    `json:"expires_in"`
+	Token_type   string `json:"token_type"`
 }
 
 var ApiKeys apiKeys
@@ -29,8 +29,8 @@ func loadEnvVariables() {
 }
 
 func loadAccessToken() {
-	url := fmt.Sprintf("https://id.twitch.tv/oauth2/token?client_id=%s&client_secret=%s&grant_type=client_credentials", 
-		ApiKeys.Client_id, 
+	url := fmt.Sprintf("https://id.twitch.tv/oauth2/token?client_id=%s&client_secret=%s&grant_type=client_credentials",
+		ApiKeys.Client_id,
 		ApiKeys.Client_secret)
 	resp, err := http.Post(url, "application/json", nil)
 
@@ -49,4 +49,3 @@ func Setup() {
 	loadEnvVariables()
 	loadAccessToken()
 }
-

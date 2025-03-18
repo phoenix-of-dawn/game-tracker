@@ -10,8 +10,8 @@ var Rdb redis.Client
 
 func Setup() {
 	Rdb = *redis.NewClient(&redis.Options{
-		Addr: os.Getenv("DATABASE_URL"),
+		Addr:     os.Getenv("DATABASE_URL"),
 		Password: "",
-		DB: 0,
+		DB:       0,
 	})
 }
