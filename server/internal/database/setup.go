@@ -14,4 +14,5 @@ func Setup() {
 		Password: "",
 		DB:       0,
 	})
+	UserSetup()
 }
