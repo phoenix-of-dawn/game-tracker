@@ -21,7 +21,7 @@ func getGames(c *gin.Context) {
 	}
 
 	games := igdb.GetGames(name)
-	c.IndentedJSON(http.StatusOK, &games)
+	c.JSON(http.StatusOK, &games)
 }
 
 func getGame(c *gin.Context) {
@@ -36,5 +36,5 @@ func getGame(c *gin.Context) {
 
 	game := igdb.GetGame(int(id))
 
-	c.IndentedJSON(http.StatusOK, game)
+	c.JSON(http.StatusOK, game)
 }

@@ -43,10 +43,6 @@ func GetGame(id int) Game {
 
     json.Unmarshal(byte_resp, &result)
 
-    if len(result) == 0 {
-
-    }
-
     return result[0]
 }
 

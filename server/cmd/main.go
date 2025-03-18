@@ -11,6 +11,7 @@ import (
 )
 
 func main() {
+	// Load Environment Variables
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Could not load env variables")
@@ -19,11 +20,16 @@ func main() {
 	server_ip := os.Getenv("SERVER_IP")
 	server_port := os.Getenv("SERVER_PORT")
 
+	// Set up the API
 	igdb.Setup()
 
+	// Make router
 	router := gin.Default()
 	router.Use(handlers.CORSMiddleware())
+	router.SetTrustedProxies(nil)
+
+	// Set up the routes
 	handlers.Setup(router)
-	log.Println("Starting...")
+
 	router.Run(server_ip + ":" + server_port)
 }
