@@ -24,11 +24,7 @@ func GetUserByEmail(email string) (*api.User, error) {
 func UserExists(email string) bool {
 	user, _ := GetUserByEmail(email)
 
-	if user == nil {
-		return false
-	}
-
-	return true
+	return user != nil
 }
 
 func GetUserByID(id int) (*api.User, error) {
