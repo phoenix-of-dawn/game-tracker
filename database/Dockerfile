@@ -1,3 +1,3 @@
-FROM redis:7.4.2-alpine
-COPY redis.conf /usr/local/etc/redis/redis.conf
-CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
+FROM mongo
+COPY mongod.conf ./usr/local/etc/mongo/
+CMD [ "mongod", "-f", "/usr/local/etc/mongo/mongod.conf" ]

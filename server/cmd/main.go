@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"github.com/phoenix-of-dawn/game-tracker/server/internal/database"
 	"github.com/phoenix-of-dawn/game-tracker/server/internal/handlers"
 	"github.com/phoenix-of-dawn/game-tracker/server/internal/igdb"
 )
@@ -22,6 +23,9 @@ func main() {
 
 	// Set up the API
 	igdb.Setup()
+
+	// Set up the db
+	database.Setup()
 
 	// Make router
 	router := gin.Default()

@@ -2,101 +2,54 @@ package database
 
 import (
 	"context"
-	"encoding/json"
 	"log"
-	"strconv"
 
 	"github.com/phoenix-of-dawn/game-tracker/server/api"
-	"github.com/redis/go-redis/v9"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
 )
 
-var ctx context.Context = context.Background()
+var coll *mongo.Collection = Client.Database("main").Collection("users")
 
-func UserSetup() {
-	_, err := Rdb.FTCreate(
-		ctx,
-		"idx:users",
-		&redis.FTCreateOptions{
-			OnJSON: true,
-			Prefix: []interface{}{
-				"user:",
-			},
-		},
-		&redis.FieldSchema{
-			FieldName: "$.id",
-			As:        "id",
-			FieldType: redis.SearchFieldTypeNumeric,
-		},
-		&redis.FieldSchema{
-			FieldName: "$.username",
-			As:        "username",
-			FieldType: redis.SearchFieldTypeText,
-		},
-		&redis.FieldSchema{
-			FieldName: "$.password",
-			As:        "password",
-			FieldType: redis.SearchFieldTypeText,
-		},
-		&redis.FieldSchema{
-			FieldName: "$.email",
-			As:        "email",
-			FieldType: redis.SearchFieldTypeText,
-		},
-		&redis.FieldSchema{
-			FieldName: "$.games",
-			As:        "games",
-			FieldType: redis.SearchFieldTypeTag,
-		},
-	).Result()
+func GetUserByEmail(email string) (*api.User, error) {
+	filter := bson.D{{Key: "email", Value: email}}
 
-	if err != nil {
-		log.Fatalf("Redis FTCreate failed %s", err.Error())
-	}
+	var result api.User
+	
+	user, err := getUserWithFilter(filter, result)
+
+	return user, err;
 }
 
-func FindUserByUsername(username string) *api.User {
-	res, err := Rdb.FTSearch(ctx, "idx:users", "@username:"+username).Result()
-	if err != nil {
-		log.Fatalf("Could not search the Redis DB, %s", err.Error())
-	}
+func UserExists(email string) bool {
+	user, _ := GetUserByEmail(email)
 
-	if res.Total == 0 {
-		return nil
-	} else {
-		userJson, err := json.Marshal(res.Docs[0].Fields)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		var user api.User
-		json.Unmarshal(userJson, &user)
-		return &user
-	}
-}
-
-func UserExists(username string) bool {
-	res, err := Rdb.FTSearch(ctx, "idx:users", "@username:"+username).Result()
-	if err != nil {
-		log.Fatalf("Could not search the Redis DB, %s", err.Error())
-	}
-
-	if res.Total == 0 {
+	if user == nil {
 		return false
 	}
+
 	return true
 }
 
-func GetUserByID(id int) *api.User {
-	res, err := Rdb.JSONGet(ctx, "user:"+strconv.FormatInt(int64(id), 10)).Result()
-	if err == redis.Nil {
-		return nil
-	} else if err != nil {
-		log.Fatal(err.Error())
+func GetUserByID(id int) (*api.User, error) {
+	filter := bson.D{{Key: "id", Value: id}}
+
+	var result api.User
+	user, err := getUserWithFilter(filter, result)
+
+	return user, err
+}
+
+func getUserWithFilter(filter bson.D, result api.User) (*api.User, error) {
+	err := coll.FindOne(context.Background(), filter).Decode(&result)
+
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			return nil, err
+		}
+
+		log.Panic(err)
 	}
 
-	var user api.User
-	err = json.Unmarshal([]byte(res), &user)
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-	return &user
+	return &result, nil
 }

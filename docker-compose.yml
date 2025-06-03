@@ -3,8 +3,7 @@ services:
     container_name: server
     build: ./server
     depends_on:
-      database:
-        condition: service_healthy
+      - database
     ports:
       - 8080:8080
 
@@ -17,14 +16,13 @@ services:
       - 4200:80
 
   database:
-    container_name: database
+    container_name: mongo
     build: ./database
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
     ports:
-      - 6379:6379
-    healthcheck:
-      test: ["CMD-SHELL", "redis-cli ping"]
-      interval: 5s
-      timeout: 10s
-      retries: 20
+      - 27017:27017
     volumes:
-      - /database/data:/var/lib/redis
+      - ./database/data:/data/db
+      - ./database/logs:/var/log/mongodb/
