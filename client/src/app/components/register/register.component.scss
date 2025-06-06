@@ -1,0 +1,15 @@
+.register {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    gap: 16px;
+    margin: 0 auto;
+    justify-content: center;
+    justify-items: center;
+}
+
+.register-field {
+    mat-form-field {
+        width: 100%;
+    }
+}

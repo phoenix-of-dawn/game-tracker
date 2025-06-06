@@ -1,0 +1,39 @@
+<div class="register">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="register-field">
+            <mat-form-field>
+                <input
+                    matInput
+                    id="register-email"
+                    type="email"
+                    formControlName="email"
+                    placeholder="Email..."
+                    autocomplete="email"
+                    required="true"
+                />
+            </mat-form-field>
+        </div>
+        <div class="register-field">
+            <mat-form-field>
+                <input
+                    matInput
+                    id="register-password"
+                    type="password"
+                    formControlName="password"
+                    placeholder="Password..."
+                    autocomplete="new-password"
+                    required="true"
+                />
+            </mat-form-field>
+        </div>
+        <div class="register-field">
+            <button
+                mat-flat-button
+                type="submit"
+                [disabled]="!registerForm.valid"
+            >
+                Register
+            </button>
+        </div>
+    </form>
+</div>
