@@ -1,39 +1,42 @@
-<div class="register">
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+<div class="register-container">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register">
         <div class="register-field">
             <mat-form-field>
+                <mat-label>Email</mat-label>
                 <input
                     matInput
                     id="register-email"
                     type="email"
                     formControlName="email"
-                    placeholder="Email..."
+                    placeholder="Ex.: johndoe@example.com"
                     autocomplete="email"
                     required="true"
                 />
+
+                @if (email != null && (email.dirty || email.touched)) { @if
+                (email.hasError('email') && !email.hasError('required')) {
+                <mat-error>Email is <strong>required</strong></mat-error>
+                } @else if (email.hasError('required')) {
+                <mat-error>Not a valid email</mat-error>
+                } }
             </mat-form-field>
         </div>
         <div class="register-field">
             <mat-form-field>
+                <mat-label>Password</mat-label>
                 <input
                     matInput
                     id="register-password"
                     type="password"
                     formControlName="password"
-                    placeholder="Password..."
+                    placeholder="Must be at least 6 characters"
                     autocomplete="new-password"
                     required="true"
                 />
             </mat-form-field>
         </div>
-        <div class="register-field">
-            <button
-                mat-flat-button
-                type="submit"
-                [disabled]="!registerForm.valid"
-            >
-                Register
-            </button>
-        </div>
+        <button mat-flat-button type="submit" [disabled]="!registerForm.valid">
+            Register
+        </button>
     </form>
 </div>

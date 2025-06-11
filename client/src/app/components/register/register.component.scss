@@ -1,14 +1,19 @@
 .register {
     display: flex;
     flex-direction: column;
-    max-width: 400px;
-    gap: 16px;
+    max-width: 25%;
+    min-height: 80vh;
     margin: 0 auto;
     justify-content: center;
-    justify-items: center;
+    align-items: center;
+
+    button {
+        width: 30%;
+    }
 }
 
 .register-field {
+    width: 100%;
     mat-form-field {
         width: 100%;
     }
