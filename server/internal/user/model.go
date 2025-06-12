@@ -1,4 +1,4 @@
-package api
+package user
 
 import "github.com/bwmarrin/snowflake"
 
@@ -8,4 +8,10 @@ type User struct {
 	Password string       `json:"password" bson:"password"`
 	Email    string       `json:"email" bson:"email"`
 	Games    []string     `json:"games" bson:"games"`
+}
+
+type UserRegisterRequest struct {
+	Email    string `json:"email"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 }

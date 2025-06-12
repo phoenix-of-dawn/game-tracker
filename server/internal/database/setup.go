@@ -12,7 +12,7 @@ import (
 	"go.mongodb.org/mongo-driver/v2/mongo/readpref"
 )
 
-var client *mongo.Client
+var Client *mongo.Client
 var coll *mongo.Collection
 
 func Setup() {
@@ -20,23 +20,23 @@ func Setup() {
 	user := os.Getenv("DATABASE_USER")
 	pass := os.Getenv("DATABASE_PASS")
 	log.Print(url, user, pass)
-	client, _ = mongo.Connect(options.Client().ApplyURI("mongodb://" + user + ":" + pass + "@" + url))
+	Client, _ = mongo.Connect(options.Client().ApplyURI("mongodb://" + user + ":" + pass + "@" + url))
 	ctx := context.Background()
 
 	defer func() {
-		if err := client.Disconnect(ctx); err != nil {
+		if err := Client.Disconnect(ctx); err != nil {
 			panic(err)
 		}
 	}()
 
-	print(client)
-	err := client.Ping(ctx, readpref.Primary())
+	print(Client)
+	err := Client.Ping(ctx, readpref.Primary())
 
 	if err != nil {
 		log.Panic(err)
 	}
 
-	coll = client.Database("main").Collection("users")
+	coll = Client.Database("main").Collection("users")
 
 	// Will throw an error if the definitions of the index models change
 	createIndexes()

@@ -1,23 +1,29 @@
-package database
+package user
 
 import (
 	"context"
 	"log"
 
-	"github.com/phoenix-of-dawn/game-tracker/server/api"
+	"github.com/phoenix-of-dawn/game-tracker/server/internal/database"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 )
 
+var coll = database.Client.Database("test").Collection("users")
 
-func GetUserByEmail(email string) (*api.User, error) {
+func InsertUser(user *User) (*User, error) {
+	_, err := coll.InsertOne(context.Background(), user)
+	return user, err
+}
+
+func GetUserByEmail(email string) (*User, error) {
 	filter := bson.D{{Key: "email", Value: email}}
 
-	var result api.User
-	
+	var result User
+
 	user, err := getUserWithFilter(filter, result)
 
-	return user, err;
+	return user, err
 }
 
 func UserExists(email string) bool {
@@ -26,16 +32,16 @@ func UserExists(email string) bool {
 	return user != nil
 }
 
-func GetUserByID(id int) (*api.User, error) {
+func GetUserByID(id int) (*User, error) {
 	filter := bson.D{{Key: "id", Value: id}}
 
-	var result api.User
+	var result User
 	user, err := getUserWithFilter(filter, result)
 
 	return user, err
 }
 
-func getUserWithFilter(filter bson.D, result api.User) (*api.User, error) {
+func getUserWithFilter(filter bson.D, result User) (*User, error) {
 	err := coll.FindOne(context.Background(), filter).Decode(&result)
 
 	if err != nil {
