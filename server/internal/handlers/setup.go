@@ -6,4 +6,5 @@ import (
 
 func Setup(router *gin.Engine) {
 	setupGames(router)
+	setupRegistration(router)
 }
