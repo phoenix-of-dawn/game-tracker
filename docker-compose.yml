@@ -19,10 +19,11 @@ services:
       - server
     ports:
       - 4200:80
-    watch:
-      - action: rebuild
-        path: ./client
-        target: /usr/src/app
+    develop:
+      watch:
+        - action: rebuild
+          path: ./client
+          target: /usr/src/app
 
   database:
     container_name: mongo
