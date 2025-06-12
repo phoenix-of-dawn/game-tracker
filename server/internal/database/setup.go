@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/phoenix-of-dawn/game-tracker/server/internal/user"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -17,10 +18,10 @@ var coll *mongo.Collection
 
 func Setup() {
 	url := os.Getenv("DATABASE_URL")
-	user := os.Getenv("DATABASE_USER")
+	username := os.Getenv("DATABASE_USER")
 	pass := os.Getenv("DATABASE_PASS")
-	log.Print(url, user, pass)
-	Client, _ = mongo.Connect(options.Client().ApplyURI("mongodb://" + user + ":" + pass + "@" + url))
+	log.Print(url, username, pass)
+	Client, _ = mongo.Connect(options.Client().ApplyURI("mongodb://" + username + ":" + pass + "@" + url))
 	ctx := context.Background()
 
 	defer func() {
@@ -36,7 +37,9 @@ func Setup() {
 		log.Panic(err)
 	}
 
-	coll = Client.Database("main").Collection("users")
+	coll = Client.Database("test").Collection("users")
+
+	user.Setup(Client)
 
 	// Will throw an error if the definitions of the index models change
 	createIndexes()

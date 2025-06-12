@@ -4,12 +4,15 @@ import (
 	"context"
 	"log"
 
-	"github.com/phoenix-of-dawn/game-tracker/server/internal/database"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 )
 
-var coll = database.Client.Database("test").Collection("users")
+var coll *mongo.Collection
+
+func Setup(client *mongo.Client) {
+	coll = client.Database("test").Collection("users")
+}
 
 func InsertUser(user *User) (*User, error) {
 	_, err := coll.InsertOne(context.Background(), user)
