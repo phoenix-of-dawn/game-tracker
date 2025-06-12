@@ -31,6 +31,7 @@ export class RegisterComponent {
 
     registerForm = new FormGroup({
         email: new FormControl('', [Validators.email, Validators.required]),
+        username: new FormControl('', Validators.required),
         password: new FormControl('', [
             Validators.required,
             Validators.minLength(6),
@@ -47,10 +48,15 @@ export class RegisterComponent {
 
     onSubmit() {
         console.log('submitted!');
-        if (this.registerForm.value.email && this.registerForm.value.password) {
+        if (
+            this.registerForm.value.email &&
+            this.registerForm.value.password &&
+            this.registerForm.value.username
+        ) {
             const result = this.registrationHandler.makeUser(
                 this.registerForm.value.email,
-                this.registerForm.value.password
+                this.registerForm.value.password,
+                this.registerForm.value.username
             );
             this.registerForm.reset();
 

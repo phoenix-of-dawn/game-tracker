@@ -7,12 +7,20 @@ import { UserCreationError, UserCreationResponse } from '../interfaces/user';
 export class RegistrationHandler {
     constructor(private httpHandler: HttpHandler) {}
 
-    public makeUser(email: string, password: string): UserCreationResponse {
+    public makeUser(
+        email: string,
+        password: string,
+        username: string
+    ): UserCreationResponse {
         let result: UserCreationResponse = {
             Authorization: '',
             Error: UserCreationError.ServerError,
         };
-        const response = this.httpHandler.postRegisterRequest(email, password);
+        const response = this.httpHandler.postRegisterRequest(
+            email,
+            password,
+            username
+        );
         response.subscribe((res) => {
             result = res;
         });

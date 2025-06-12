@@ -19,12 +19,14 @@ export class HttpHandler {
 
     postRegisterRequest(
         email: string,
-        password: string
+        password: string,
+        username: string
     ): Observable<UserCreationResponse> {
         return this.http.post<UserCreationResponse>(
             `${this.baseUrl}/register`,
             {
                 email: email,
+                username: username,
                 password: password,
             }
         );
