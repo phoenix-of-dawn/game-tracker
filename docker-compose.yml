@@ -6,6 +6,11 @@ services:
       - database
     ports:
       - 8080:8080
+    develop:
+      watch:
+        - action: rebuild
+          path: ./server
+          target: /app
 
   client:
     container_name: client
@@ -26,3 +31,8 @@ services:
     volumes:
       - ./database/data:/data/db
       - ./database/logs:/var/log/mongodb/
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
