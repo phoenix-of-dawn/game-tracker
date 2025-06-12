@@ -13,14 +13,15 @@ import (
 )
 
 var client *mongo.Client
+var coll *mongo.Collection
 
 func Setup() {
 	url := os.Getenv("DATABASE_URL")
 	user := os.Getenv("DATABASE_USER")
 	pass := os.Getenv("DATABASE_PASS")
+	log.Print(url, user, pass)
 	client, _ = mongo.Connect(options.Client().ApplyURI("mongodb://" + user + ":" + pass + "@" + url))
-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
-	defer cancel();
+	ctx := context.Background()
 
 	defer func() {
 		if err := client.Disconnect(ctx); err != nil {
@@ -28,10 +29,17 @@ func Setup() {
 		}
 	}()
 
+	print(client)
+	err := client.Ping(ctx, readpref.Primary())
+
+	if err != nil {
+		log.Panic(err)
+	}
+
+	coll = client.Database("main").Collection("users")
+
 	// Will throw an error if the definitions of the index models change
 	createIndexes()
-
-	_ = client.Ping(ctx, readpref.Primary());
 }
 
 func createIndexes() {
@@ -40,11 +48,11 @@ func createIndexes() {
 
 	indexModels := []mongo.IndexModel{
 		{
-			Keys: bson.D{{Key: "id", Value: 1}},
+			Keys:    bson.D{{Key: "id", Value: 1}},
 			Options: options.Index().SetUnique(true),
 		},
 		{
-			Keys: bson.D{{Key: "email", Value: 1}},
+			Keys:    bson.D{{Key: "email", Value: 1}},
 			Options: options.Index().SetUnique(true),
 		},
 	}

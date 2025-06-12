@@ -9,7 +9,6 @@ import (
 	"go.mongodb.org/mongo-driver/v2/mongo"
 )
 
-var coll *mongo.Collection = client.Database("main").Collection("users")
 
 func GetUserByEmail(email string) (*api.User, error) {
 	filter := bson.D{{Key: "email", Value: email}}
