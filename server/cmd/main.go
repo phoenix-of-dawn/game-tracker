@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"os"
 
@@ -26,6 +27,12 @@ func main() {
 
 	// Set up the db
 	database.Setup()
+
+	defer func() {
+		if err := database.Client.Disconnect(context.Background()); err != nil {
+			panic(err)
+		}
+	}()
 
 	// Make router
 	router := gin.Default()

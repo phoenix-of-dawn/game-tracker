@@ -24,12 +24,6 @@ func Setup() {
 	Client, _ = mongo.Connect(options.Client().ApplyURI("mongodb://" + username + ":" + pass + "@" + url))
 	ctx := context.Background()
 
-	defer func() {
-		if err := Client.Disconnect(ctx); err != nil {
-			panic(err)
-		}
-	}()
-
 	print(Client)
 	err := Client.Ping(ctx, readpref.Primary())
 
@@ -42,25 +36,19 @@ func Setup() {
 	user.Setup(Client)
 
 	// Will throw an error if the definitions of the index models change
-	createIndexes()
+	createIndex()
 }
 
-func createIndexes() {
+func createIndex() {
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
 
-	indexModels := []mongo.IndexModel{
-		{
-			Keys:    bson.D{{Key: "id", Value: 1}},
-			Options: options.Index().SetUnique(true),
-		},
-		{
-			Keys:    bson.D{{Key: "email", Value: 1}},
-			Options: options.Index().SetUnique(true),
-		},
+	indexModel := mongo.IndexModel{
+		Keys:    bson.D{{Key: "email", Value: 1}},
+		Options: options.Index().SetUnique(true),
 	}
 
-	_, err := coll.Indexes().CreateMany(ctx, indexModels)
+	_, err := coll.Indexes().CreateOne(ctx, indexModel)
 
 	if err != nil {
 		log.Panic(err)

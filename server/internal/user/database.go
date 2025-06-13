@@ -36,7 +36,7 @@ func UserExists(email string) bool {
 }
 
 func GetUserByID(id int) (*User, error) {
-	filter := bson.D{{Key: "id", Value: id}}
+	filter := bson.D{{Key: "_id", Value: id}}
 
 	var result User
 	user, err := getUserWithFilter(filter, result)

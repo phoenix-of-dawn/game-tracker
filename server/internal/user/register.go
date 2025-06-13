@@ -1,10 +1,10 @@
 package user
 
 import (
-	"errors"
 	"log"
 
 	"github.com/bwmarrin/snowflake"
+	projectErrors "github.com/phoenix-of-dawn/game-tracker/server/internal/common/project-errors"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -12,7 +12,7 @@ var (
 	node, _ = snowflake.NewNode(1)
 )
 
-func RegisterUser(request UserRegisterRequest) (*User, error) {
+func RegisterUser(request *UserRegisterRequest) (*User, error) {
 	user, err := makeAndValidateUser(request)
 
 	if err != nil {
@@ -22,17 +22,17 @@ func RegisterUser(request UserRegisterRequest) (*User, error) {
 	return InsertUser(user)
 }
 
-func makeAndValidateUser(request UserRegisterRequest) (*User, error) {
+func makeAndValidateUser(request *UserRegisterRequest) (*User, error) {
 	email := request.Email
 	username := request.Username
 	password := request.Password
 
 	if len(password) < 6 {
-		return nil, errors.New("invalid password length")
+		return nil, projectErrors.ErrIllegalPasswordError
 	}
 
 	if UserExists(email) {
-		return nil, errors.New("user already exists")
+		return nil, projectErrors.ErrUserNotUnique
 	}
 
 	password, err := hashPassword(password)

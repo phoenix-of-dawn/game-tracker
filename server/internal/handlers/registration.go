@@ -13,9 +13,10 @@ func setupRegistration(router *gin.Engine) {
 }
 
 func registerUser(c *gin.Context) {
-	var newUserRequest user.UserRegisterRequest
+	newUserRequest := &user.UserRegisterRequest{}
 
 	if err := c.BindJSON(newUserRequest); err != nil {
+		log.Print(err)
 		c.IndentedJSON(http.StatusBadRequest, newUserRequest)
 		return
 	}

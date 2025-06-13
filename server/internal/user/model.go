@@ -3,7 +3,7 @@ package user
 import "github.com/bwmarrin/snowflake"
 
 type User struct {
-	Id       snowflake.ID `json:"id" bson:"id"`
+	Id       snowflake.ID `json:"_id" bson:"_id"`
 	Username string       `json:"username" bson:"username"`
 	Password string       `json:"password" bson:"password"`
 	Email    string       `json:"email" bson:"email"`
