@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Game } from '../interfaces/game';
-import { UserCreationResponse } from '../interfaces/user';
 
 @Injectable({
     providedIn: 'root',
@@ -21,14 +20,11 @@ export class HttpHandler {
         email: string,
         password: string,
         username: string
-    ): Observable<UserCreationResponse> {
-        return this.http.post<UserCreationResponse>(
-            `${this.baseUrl}/register`,
-            {
-                email: email,
-                username: username,
-                password: password,
-            }
-        );
+    ): Observable<unknown> {
+        return this.http.post<unknown>(`${this.baseUrl}/register`, {
+            email: email,
+            username: username,
+            password: password,
+        });
     }
 }

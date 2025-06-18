@@ -1,9 +1,6 @@
-export interface UserCreationResponse {
-    Authorization: string;
-    Error: UserCreationError | null;
-}
-
-export enum UserCreationError {
-    EmailNotUnique,
-    ServerError,
+export interface User {
+    id: number;
+    username: string;
+    email: string;
+    games: string[];
 }

@@ -28,7 +28,7 @@ func makeAndValidateUser(request *UserRegisterRequest) (*User, error) {
 	password := request.Password
 
 	if len(password) < 6 {
-		return nil, projectErrors.ErrIllegalPasswordError
+		return nil, projectErrors.ErrIllegalPassword
 	}
 
 	if UserExists(email) {

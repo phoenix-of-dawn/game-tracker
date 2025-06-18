@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
     FormControl,
     FormGroup,
@@ -6,11 +6,13 @@ import {
     Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatError, MatFormField } from '@angular/material/form-field';
+import { MatFormField } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RegistrationHandler } from '../../services/registeration-handler.service';
 import { Router } from '@angular/router';
-import { UserCreationError } from '../../interfaces/user';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Subscription } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'register-component',
@@ -23,10 +25,10 @@ import { UserCreationError } from '../../interfaces/user';
         MatButtonModule,
     ],
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
     constructor(
         private registrationHandler: RegistrationHandler,
-        private router: Router
+        private snackBar: MatSnackBar
     ) {}
 
     registerForm = new FormGroup({
@@ -37,6 +39,8 @@ export class RegisterComponent {
             Validators.minLength(6),
         ]),
     });
+
+    ngOnInit(): void {}
 
     get email() {
         return this.registerForm.get('email');
@@ -58,16 +62,6 @@ export class RegisterComponent {
                 this.registerForm.value.password,
                 this.registerForm.value.username
             );
-            this.registerForm.reset();
-
-            if (result.Error == null) {
-                // Move to user page when implemented
-                this.router.navigate(['/search']);
-            } else {
-                this.router.navigate(['/register'], {
-                    queryParams: { Error: result.Error },
-                });
-            }
         }
     }
 }
