@@ -1,6 +1,9 @@
 package user
 
-import "github.com/bwmarrin/snowflake"
+import (
+	"github.com/bwmarrin/snowflake"
+	"github.com/golang-jwt/jwt/v5"
+)
 
 type User struct {
 	Id       snowflake.ID `json:"_id" bson:"_id"`
@@ -14,4 +17,10 @@ type UserRegisterRequest struct {
 	Email    string `json:"email"`
 	Username string `json:"username"`
 	Password string `json:"password"`
+}
+
+type Claims struct {
+	Email string `json:"email"`
+	Type  string `json:"typ"`
+	jwt.RegisteredClaims
 }

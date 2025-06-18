@@ -21,10 +21,10 @@ func registerUser(c *gin.Context) {
 		return
 	}
 
-	user, err := user.RegisterUser(newUserRequest)
+	_, err := user.RegisterUser(newUserRequest)
 	if err != nil {
 		log.Panic(err)
 	}
 
-	c.IndentedJSON(http.StatusAccepted, user)
+	c.IndentedJSON(http.StatusAccepted, nil)
 }
