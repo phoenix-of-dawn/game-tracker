@@ -17,7 +17,7 @@ func registerUser(c *gin.Context) {
 
 	if err := c.BindJSON(newUserRequest); err != nil {
 		log.Print(err)
-		c.IndentedJSON(http.StatusBadRequest, newUserRequest)
+		c.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 

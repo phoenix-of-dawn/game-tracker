@@ -14,7 +14,7 @@ import (
 
 var signingKey = os.Getenv("JWT_KEY")
 
-func checkUser(email string, password string) bool {
+func CheckUser(email string, password string) bool {
 	user, err := GetUserByEmail(email)
 	if err != nil {
 		return false
@@ -23,7 +23,7 @@ func checkUser(email string, password string) bool {
 	return checkPassword(password, user.Password)
 }
 
-func setTokens(c *gin.Context, email string, id snowflake.ID) {
+func SetTokens(c *gin.Context, email string, id snowflake.ID) {
 	verifTkn := generateToken(email, id, 60*time.Minute, false)
 	refreshTkn := generateToken(email, id, 60*time.Hour, true)
 

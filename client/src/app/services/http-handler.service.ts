@@ -27,4 +27,11 @@ export class HttpHandler {
             password: password,
         });
     }
+
+    postLoginRequest(email: string, password: string): Observable<unknown> {
+        return this.http.post<unknown>(`${this.baseUrl}/login`, {
+            email: email,
+            password: password,
+        });
+    }
 }

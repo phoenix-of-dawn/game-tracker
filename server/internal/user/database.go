@@ -24,7 +24,7 @@ func GetUserByEmail(email string) (*User, error) {
 
 	var result User
 
-	user, err := getUserWithFilter(filter, result)
+	user, err := getUserWithFilter(filter, &result)
 
 	return user, err
 }
@@ -39,21 +39,23 @@ func GetUserByID(id int) (*User, error) {
 	filter := bson.D{{Key: "_id", Value: id}}
 
 	var result User
-	user, err := getUserWithFilter(filter, result)
+	user, err := getUserWithFilter(filter, &result)
 
 	return user, err
 }
 
-func getUserWithFilter(filter bson.D, result User) (*User, error) {
+func getUserWithFilter(filter bson.D, result *User) (*User, error) {
 	err := coll.FindOne(context.Background(), filter).Decode(&result)
 
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
+			println("Error no documents found")
 			return nil, err
 		}
 
 		log.Panic(err)
 	}
 
-	return &result, nil
+	println("documents found")
+	return result, nil
 }

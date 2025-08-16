@@ -29,19 +29,13 @@ export class RegistrationHandler {
                             'An account with this email already exists'
                         );
                     } else {
-                        console.log(this.errorHandler);
                         this.errorHandler.showError('Server error');
-                        console.log(this.errorHandler);
-
-                        console.log('Server error, snackbar should appear');
                     }
                     throw err;
                 })
             )
             .subscribe(() => {
-                // TODO: Initiate login afterwards once login is implemented
-                // For now, redirect to root
-                this.router.navigate(['/']);
+                this.router.navigate(['/login']);
             });
     }
 }
