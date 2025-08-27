@@ -35,4 +35,8 @@ export class HttpHandler {
             password: password,
         });
     }
+
+    getUserRequest(id: number): Observable<User | null> {
+        return this.http.get<User | null>(`${this.baseUrl}/user?id=${id}`);
+    }
 }
