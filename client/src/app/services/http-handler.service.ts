@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Game } from '../interfaces/game';
+import { User } from '../interfaces/user';
 
 @Injectable({
     providedIn: 'root',
@@ -28,8 +29,8 @@ export class HttpHandler {
         });
     }
 
-    postLoginRequest(email: string, password: string): Observable<unknown> {
-        return this.http.post<unknown>(`${this.baseUrl}/login`, {
+    postLoginRequest(email: string, password: string): Observable<User | null> {
+        return this.http.post<User | null>(`${this.baseUrl}/login`, {
             email: email,
             password: password,
         });
